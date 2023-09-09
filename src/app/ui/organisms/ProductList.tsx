@@ -34,7 +34,7 @@ const ProductsMock: ProductProps[] = [
 ];
 
 const ProductList = () => {
-	return (
+return (
 		<ul>
 			{ProductsMock.map((product) => (
 				<li key={product.id}>
