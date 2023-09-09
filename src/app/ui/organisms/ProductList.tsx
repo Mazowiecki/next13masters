@@ -34,16 +34,15 @@ const ProductsMock: ProductProps[] = [
 ];
 
 const ProductList = () => {
-	return ProductsMock.map((product) => (
-		<Product
-			data-testid="products-list"
-			key={product.id}
-			title={product.title}
-			price={product.price}
-			alt={product.alt}
-			src={product.src}
-		/>
-	));
+return (
+		<ul>
+			{ProductsMock.map((product) => (
+				<li key={product.id}>
+					<Product {...product} />
+				</li>
+			))}
+		</ul>
+	);
 };
 
 export default ProductList;
