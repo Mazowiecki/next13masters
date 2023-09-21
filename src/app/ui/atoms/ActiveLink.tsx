@@ -25,7 +25,11 @@ const ActiveLink = ({
 	const isActive = exact ? pathname === stringPathname : pathname.includes(stringPathname);
 
 	return (
-		<Link href={href} className={clsx(className, isActive && activeClassName)}>
+		<Link
+			href={href}
+			className={clsx(className, isActive && activeClassName)}
+			aria-current={isActive || undefined}
+		>
 			{children}
 		</Link>
 	);

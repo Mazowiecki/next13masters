@@ -11,11 +11,15 @@ export const generateMetadata = async ({
 }: {
 	params: { productId: string };
 }): Promise<Metadata> => {
-	const { title, description } = (await getProductById(params.productId)) as ProductProps;
-
+	const product = await getProductById(params.productId);
 	return {
-		title: title,
-		description: description,
+		title: product.title,
+		description: product.description,
+		openGraph: {
+			title: product.title,
+			description: product.description,
+			images: [{ url: product.image }],
+		},
 	};
 };
 
@@ -39,7 +43,7 @@ export default async function SingleProductPage({ params }: { params: { productI
 						</p>
 					</div>
 					<div className="mt-4 space-y-6">
-						<p className="font-sans text-base text-slate-500"></p>
+						<p className="font-sans text-base text-slate-500">{description}</p>
 					</div>
 					<div className="mt-6 flex items-center">
 						<p className="ml-1 text-sm font-semibold text-slate-500">In stock</p>
