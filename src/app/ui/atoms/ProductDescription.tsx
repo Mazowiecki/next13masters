@@ -1,4 +1,6 @@
 import React from "react";
+import Image from "next/image";
+import { formatMoney } from "@/utils";
 
 type ProductDescriptionProps = {
 	title: string;
@@ -7,9 +9,24 @@ type ProductDescriptionProps = {
 
 const ProductDescription = ({ title, price }: ProductDescriptionProps) => {
 	return (
-		<div className="flex items-center justify-around">
-			<p className="font-bold">{title}</p>
-			<p className="font-bold">{price / 100}</p>
+		<div className="mt-2">
+			<div className="flex flex-row justify-between">
+				<h3 className="text-sm font-semibold text-slate-700">{title}</h3>
+				<p className="small-caps text-sm font-medium text-slate-900" data-testid="product-price">
+					{formatMoney(price)}
+				</p>
+			</div>
+			<div className="mt-1 flex flex-row justify-between">
+				<p className="text-sm text-slate-500">Category</p>
+				<div className="flex flex-row items-center gap-2" title="4.5 out of 5 stars">
+					<p className="small-caps text-xs" data-testid="product-rating">
+						4.5 / 5
+					</p>
+					<div className="flex items-end">
+						<Image src="../../star.svg" width={20} height={20} alt="star" />
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };

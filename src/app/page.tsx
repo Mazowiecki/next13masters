@@ -1,5 +1,5 @@
-import ProductList from "@ui/organisms/ProductList";
+import React from "react";
 
 export default function Home() {
-	return <ProductList />;
+	return <>Homepage</>;
 }
