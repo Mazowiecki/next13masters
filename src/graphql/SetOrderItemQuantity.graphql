@@ -1,0 +1,6 @@
+mutation SetOrderItemQuantity($id: ID!, $quantity: Int!) {
+    updateOrderItem(id: $id, quantity: $quantity) {
+      id
+      quantity
+    }
+}

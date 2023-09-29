@@ -1,0 +1,13 @@
+mutation CreateOrderItem($quantity: Int!, $productId: ID!, $orderId: ID!) {
+    createOrderItem( quantity: $quantity, productId: $productId, orderId: $orderId ) {
+        id,
+        quantity
+        orderId
+        product {
+            id
+            image
+            name
+            price
+        }
+    }
+}

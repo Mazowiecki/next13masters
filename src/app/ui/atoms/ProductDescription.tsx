@@ -1,13 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import { formatMoney } from "@/utils";
+import { ReviewItemFragmentFragment } from "@/gql/graphql";
 
 type ProductDescriptionProps = {
 	title: string;
 	price: number;
+	review: ReviewItemFragmentFragment[];
 };
 
-const ProductDescription = ({ title, price }: ProductDescriptionProps) => {
+const ProductDescription = ({ title, price, review }: ProductDescriptionProps) => {
+	const countedReview = review.reduce((acc, { rating }) => acc + rating, 0) / review.length;
 	return (
 		<div className="mt-2">
 			<div className="flex flex-row justify-between">
@@ -20,7 +23,7 @@ const ProductDescription = ({ title, price }: ProductDescriptionProps) => {
 				<p className="text-sm text-slate-500">Category</p>
 				<div className="flex flex-row items-center gap-2" title="4.5 out of 5 stars">
 					<p className="small-caps text-xs" data-testid="product-rating">
-						4.5 / 5
+						{countedReview.toFixed(1)} / 5
 					</p>
 					<div className="flex items-end">
 						<Image src="../../star.svg" width={20} height={20} alt="star" />

@@ -14,7 +14,7 @@ const ProductImage = ({ alt, src }: ProductImageProps) => {
 				width={256}
 				src={src}
 				alt={alt}
-				className="w-full object-contain object-center p-4 transition-transform hover:scale-105"
+				className="h-[256px] w-full object-contain object-center p-4 transition-transform hover:scale-105"
 			/>
 		</div>
 	);

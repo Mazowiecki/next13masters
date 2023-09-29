@@ -1,0 +1,5 @@
+mutation CreateOrder($orderItems: [String]) {
+    createOrder( orderItems: $orderItems ) {
+        id
+    }
+}

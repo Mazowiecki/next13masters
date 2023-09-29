@@ -1,0 +1,5 @@
+query GetProductsList($limit: Int, $offset: Int, $filterName: String, $filterPriceHighToLow: Boolean, $filterRatingHighToLow: Boolean) {
+    products(limit: $limit, offset: $offset, filterName: $filterName, filterPriceHighToLow: $filterPriceHighToLow, filterRatingHighToLow: $filterRatingHighToLow) {
+        ...ProductListItemFragment
+    }
+}

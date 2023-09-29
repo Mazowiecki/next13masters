@@ -11,6 +11,7 @@ type ActiveLinkProps<T extends string> = {
 	href: Route<T> | URL;
 	children: React.ReactNode;
 	exact?: boolean;
+	searchParams?: string;
 };
 
 const ActiveLink = ({
@@ -19,13 +20,18 @@ const ActiveLink = ({
 	href,
 	children,
 	exact = false,
+	searchParams,
 }: ActiveLinkProps<string>) => {
 	const pathname = usePathname();
 	const stringPathname = typeof href === "object" ? href.pathname || "" : href;
 	const isActive = exact ? pathname === stringPathname : pathname.includes(stringPathname);
-
+	const url = searchParams ? `${href}?${searchParams}` : href;
 	return (
-		<Link href={href} className={clsx(className, isActive && activeClassName)}>
+		<Link
+			href={url as Route}
+			className={clsx(className, isActive && activeClassName)}
+			aria-current={isActive || undefined}
+		>
 			{children}
 		</Link>
 	);

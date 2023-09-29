@@ -32,6 +32,20 @@
       }
     ],
 
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+
+    "@typescript-eslint/unbound-method": [
+      "error",
+      {
+        "ignoreUnboundThis": true
+      }
+    ],
+
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {
@@ -69,6 +83,14 @@
     "@typescript-eslint/restrict-template-expressions": [
       "error",
       { "allowNumber": true, "allowBoolean": true }
+    ],
+
+    "no-restricted-imports": [
+      "error",
+      {
+        "name": "next/router",
+        "message": "Please use next/navigation instead."
+      }
     ]
   },
   "overrides": [
@@ -79,5 +101,5 @@
       }
     }
   ],
-  "ignorePatterns": ["*.js", "*.jsx"]
+  "ignorePatterns": ["*.js", "*.jsx", "fragment-masking.ts"]
 }

@@ -1,0 +1,16 @@
+query GetCartById($cartId: ID!) {
+    order(id: $cartId) {
+        id
+        status
+        total
+        orderItem {
+            id
+            orderId
+            quantity
+            updatedAt
+            product {
+              ...ProductListItemFragment
+            }
+        }
+    }
+}

@@ -1,0 +1,9 @@
+query GetProductsByCategory($limit: Int, $offset: Int, $filter: String) {
+    categories(limit: $limit, offset: $offset, filter: $filter) {
+        name
+        id
+        product {
+            ...ProductListItemFragment
+        }
+    }
+}

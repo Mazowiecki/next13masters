@@ -1,0 +1,11 @@
+query GetProductsByCollection($collectionName: String!) {
+    collection(name: $collectionName) {
+        createdAt
+        id
+        name
+        updatedAt
+        product {
+            ...ProductListItemFragment
+        }
+    }
+}
