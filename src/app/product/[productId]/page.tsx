@@ -1,45 +1,77 @@
 import React, { Suspense } from "react";
-import { type Metadata } from "next";
+import { revalidatePath } from "next/cache";
+import { notFound } from "next/navigation";
 import { getProductById } from "@/api/products";
-import { type ProductProps } from "@ui/molecules/Product";
 import { SuggestedProductsList } from "@ui/organisms/SuggestedProductsList";
 import ProductImage from "@ui/atoms/ProductImage";
 import { formatMoney } from "@/utils";
+import { type ProductListItemFragmentFragment } from "@/gql/graphql";
+import { AddToCartButton } from "@/app/product/[productId]/AddToCartButton";
+import { addToCart, getOrCreateCart } from "@/api/cart";
+import { Reviews } from "@/app/product/[productId]/Reviews";
+import { changeItemQuantity } from "@/app/cart/actions";
 
 export const generateMetadata = async ({
 	params,
 }: {
 	params: { productId: string };
-}): Promise<Metadata> => {
-	const product = await getProductById(params.productId);
+}): Promise<{
+	description: string | null | undefined;
+	title: string;
+	openGraph: {
+		images: { url: string | null | undefined }[];
+		description: string | null | undefined;
+		title: string;
+	};
+}> => {
+	const product = (await getProductById(params.productId)) as ProductListItemFragmentFragment;
+
 	return {
-		title: product.title,
-		description: product.description,
+		title: product.name || "",
+		description: product.description || "",
 		openGraph: {
-			title: product.title,
-			description: product.description,
-			images: [{ url: product.image }],
+			title: product.name || "",
+			description: product.description || "",
+			images: [{ url: product.image || "" }],
 		},
 	};
 };
 
 export default async function SingleProductPage({ params }: { params: { productId: string } }) {
-	const { image, description, price, title } = (await getProductById(
-		params.productId,
-	)) as ProductProps;
+	const product = (await getProductById(params.productId)) as ProductListItemFragmentFragment;
+
+	if (!product) {
+		throw notFound();
+	}
+
+	const { name, description, image, price } = product;
+
+	async function addToCartAction(_formData: FormData) {
+		"use server";
+
+		const cart = await getOrCreateCart();
+		if (cart && cart.orderItem?.some((item) => item?.product?.id === params.productId)) {
+			const item = cart.orderItem?.find((item) => item?.product?.id === params.productId);
+			await changeItemQuantity(item!.id, item!.quantity + 1);
+			revalidatePath("/");
+			return;
+		}
+		await addToCart(cart.id, params.productId);
+		revalidatePath("/");
+	}
 
 	return (
 		<>
 			<div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-				<ProductImage src={image} alt={description} />
+				{image && name && <ProductImage src={image} alt={name} />}
 				<div className="px-6">
-					<h1 className="flex-auto text-3xl font-bold tracking-tight text-slate-900">{title}</h1>
+					<h1 className="flex-auto text-3xl font-bold tracking-tight text-slate-900">{name}</h1>
 					<div className="mt-4 flex items-center">
 						<p
 							className="small-caps text-sm font-medium text-slate-900"
 							data-testid="product-price"
 						>
-							{formatMoney(price)}
+							{price && formatMoney(price)}
 						</p>
 					</div>
 					<div className="mt-4 space-y-6">
@@ -49,18 +81,18 @@ export default async function SingleProductPage({ params }: { params: { productI
 						<p className="ml-1 text-sm font-semibold text-slate-500">In stock</p>
 					</div>
 					<div className="mt-8">
-						<button className="inline-flex h-14 w-full items-center justify-center rounded-md from-[#1e4b65] from-20% via-[#010315] to-[#0b237d] to-80% px-6 text-base font-medium leading-6 text-white shadow transition duration-150 ease-in-out enabled:bg-gradient-to-r hover:enabled:brightness-125 disabled:cursor-wait disabled:bg-gray-300">
-							Add to cart
-						</button>
+						<form action={addToCartAction}>
+							<AddToCartButton />
+						</form>
 					</div>
 				</div>
 			</div>
 			<aside>
-				<Suspense aria-busy="true" fallback="Loading...">
-					<h2>Similar Products</h2>
+				<Suspense fallback="Loading">
 					<SuggestedProductsList />
 				</Suspense>
 			</aside>
+			<Reviews product={product} />
 		</>
 	);
 }

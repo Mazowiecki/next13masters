@@ -2,7 +2,7 @@ import React from "react";
 import { type Route } from "next";
 import ActiveLink from "@ui/atoms/ActiveLink";
 
-const NavigationBar = () => {
+const NavBar = () => {
 	return (
 		<nav>
 			<ul className="flex h-16 max-w-full space-x-8 whitespace-nowrap lg:px-8">
@@ -28,4 +28,4 @@ const NavigationBar = () => {
 	);
 };
 
-export default NavigationBar;
+export default NavBar;

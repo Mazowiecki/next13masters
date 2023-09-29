@@ -1,0 +1,6 @@
+query GetHomepageCollections {
+    collections(limit: 3) {
+        id
+        name
+    }
+}

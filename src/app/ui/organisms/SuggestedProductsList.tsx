@@ -1,11 +1,22 @@
+import React from "react";
+import { notFound } from "next/navigation";
 import ProductList from "@ui/organisms/ProductList";
-import { getProductsList } from "@/api/products";
-import { type ProductProps } from "@ui/molecules/Product";
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+import { getProductsListLimit } from "@/api/products";
+import { type ProductListItemFragmentFragment } from "@/gql/graphql";
 
 export const SuggestedProductsList = async () => {
-	const products = (await getProductsList(1)) as ProductProps[];
-	await sleep(5000);
-	return <ProductList products={products.slice(-4)} />;
+	const products = (await getProductsListLimit(4)) as ProductListItemFragmentFragment[];
+
+	if (!products) {
+		throw notFound();
+	}
+
+	return (
+		<aside data-testid="related-products">
+			<div className="py-16">
+				<h2 className="py-8 text-xl font-semibold leading-7">Similar Products</h2>
+				<ProductList products={products} />
+			</div>
+		</aside>
+	);
 };

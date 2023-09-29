@@ -2,14 +2,15 @@
 const nextConfig = {
 	experimental: {
 		typedRoutes: true,
+		serverActions: true,
 	},
 	images: {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "naszsklep-api.vercel.app",
+				hostname: "picsum.photos",
 				port: "",
-				pathname: "/images/**",
+				pathname: "/**",
 			},
 		],
 	},
@@ -18,6 +19,21 @@ const nextConfig = {
 			{
 				source: "/products",
 				destination: "/products/1",
+				permanent: true,
+			},
+			{
+				source: "/categories/t-shirts",
+				destination: "/categories/t-shirts/1",
+				permanent: true,
+			},
+			{
+				source: "/categories/hoodies",
+				destination: "/categories/hoodies/1",
+				permanent: true,
+			},
+			{
+				source: "/categories/accessories",
+				destination: "/categories/accessories/1",
 				permanent: true,
 			},
 		];

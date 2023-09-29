@@ -1,0 +1,10 @@
+fragment ReviewItemFragment on Review {
+    id
+    name
+    content
+    email
+    headline
+    rating
+    createdAt
+    updatedAt
+}
