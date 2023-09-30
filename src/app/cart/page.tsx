@@ -3,9 +3,10 @@ import { getCartFromCookie } from "@/api/cart";
 import { formatMoney } from "@/utils";
 import { IncrementProductQuantity } from "@/app/cart/IncrementProductQuantity";
 import { RemoveButton } from "@/app/cart/RemoveButton";
+import { type Order } from "@/gql/graphql";
 
 export default async function CartPage() {
-	const cart = await getCartFromCookie();
+	const cart = (await getCartFromCookie()) as Order;
 	if (!cart) {
 		redirect("/");
 	}

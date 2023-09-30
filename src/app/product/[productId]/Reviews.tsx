@@ -2,13 +2,16 @@
 import React, { experimental_useOptimistic as useOptimistic } from "react";
 import { Star } from "lucide-react";
 import { ReviewItemList } from "@/app/product/[productId]/ReviewItemList";
-import { ProductListItemFragmentFragment, ReviewItemFragmentFragment } from "@/gql/graphql";
+import {
+	type ProductListItemFragmentFragment,
+	type ReviewItemFragmentFragment,
+} from "@/gql/graphql";
 import { AddReviewForm } from "@/app/product/[productId]/AddReviewForm";
 import { addReview } from "@/app/product/[productId]/actions";
 
 export const Reviews = ({ product }: { product: ProductListItemFragmentFragment }) => {
 	const [optimisticReviews, setOptimisticReviews] = useOptimistic<ReviewItemFragmentFragment[]>(
-		product.review as any,
+		product.review as ReviewItemFragmentFragment[],
 	);
 	async function addReviewAction(_formData: FormData) {
 		if (

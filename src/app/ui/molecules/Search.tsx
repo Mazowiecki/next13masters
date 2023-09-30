@@ -4,19 +4,19 @@ import { type Route } from "next";
 import { useRouter } from "next/navigation";
 
 const Search = () => {
-	const { push } = useRouter();
 	const [searchValue, setSearchValue] = useState<string>("");
+	const router = useRouter();
 
 	useEffect(() => {
 		if (searchValue.length > 1) {
 			const timer = setTimeout(() => {
 				const encodedValue = searchValue.replace(/ /g, "%20");
-				push(`/search?query=${encodedValue}` as Route);
+				router.push(`/search?query=${encodedValue}` as Route);
 			}, 500);
 
 			return () => clearTimeout(timer);
 		}
-	}, [searchValue, push]);
+	}, [searchValue, router]);
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSearchValue(e.target.value);

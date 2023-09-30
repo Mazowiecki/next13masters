@@ -39,13 +39,6 @@
       }
     ],
 
-    "@typescript-eslint/unbound-method": [
-      "error",
-      {
-        "ignoreUnboundThis": true
-      }
-    ],
-
     "@typescript-eslint/consistent-type-imports": [
       "error",
       {

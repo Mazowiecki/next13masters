@@ -1,16 +1,18 @@
 import React from "react";
 import Image from "next/image";
 import { formatMoney } from "@/utils";
-import { ReviewItemFragmentFragment } from "@/gql/graphql";
+import { type ReviewItemFragmentFragment } from "@/gql/graphql";
 
 type ProductDescriptionProps = {
 	title: string;
 	price: number;
-	review: ReviewItemFragmentFragment[];
+	review?: ReviewItemFragmentFragment[];
 };
 
 const ProductDescription = ({ title, price, review }: ProductDescriptionProps) => {
-	const countedReview = review.reduce((acc, { rating }) => acc + rating, 0) / review.length;
+	const countedReview = review
+		? review.reduce((acc, { rating }) => acc + rating, 0) / review.length
+		: 0;
 	return (
 		<div className="mt-2">
 			<div className="flex flex-row justify-between">

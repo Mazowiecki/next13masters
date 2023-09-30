@@ -4,7 +4,7 @@ import ProductList from "@ui/organisms/ProductList";
 import Pagination from "@ui/molecules/Pagination";
 import TitleSection from "@ui/molecules/TitleSection";
 import { getProducts } from "@/app/products/[page]/actions";
-import { ProductListItemFragmentFragment } from "@/gql/graphql";
+import { type ProductListItemFragmentFragment } from "@/gql/graphql";
 import { FilterProducts } from "@/app/products/[page]/FilterProducts";
 
 export const generateStaticParams = async () => {
@@ -18,7 +18,7 @@ export default async function ProductsPageByPage({
 	searchParams,
 }: {
 	params: { page: string };
-	searchParams?: { [key: string]: string | string[] | undefined };
+	searchParams: { [key: string]: string };
 }) {
 	let filterPriceHighToLow: boolean | undefined = undefined;
 	let filterRatingHighToLow: boolean | undefined = undefined;
@@ -38,8 +38,6 @@ export default async function ProductsPageByPage({
 		filterPriceHighToLow,
 		filterRatingHighToLow,
 	)) as ProductListItemFragmentFragment[];
-
-	console.log("searchParams", searchParams);
 
 	if (!products) {
 		throw notFound();
