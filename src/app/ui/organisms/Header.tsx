@@ -1,4 +1,6 @@
 import React from "react";
+import { type Route } from "next";
+import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
 import NavBar from "@ui/organisms/NavBar";
 import Search from "@ui/molecules/Search";
@@ -14,9 +16,11 @@ export async function Header() {
 					<NavBar />
 					<div className="flex items-center gap-2">
 						<Search />
-						<div className="ml-auto flex h-full items-center text-slate-500 lg:ml-4">
-							<ShoppingBag /> <span className="ml-2 text-sm font-medium ">{countItems}</span>
-						</div>
+						<Link href={"/cart" as Route}>
+							<div className="ml-auto flex h-full items-center text-slate-500 lg:ml-4">
+								<ShoppingBag /> <span className="ml-2 text-sm font-medium ">{countItems}</span>
+							</div>
+						</Link>
 					</div>
 				</div>
 			</nav>
