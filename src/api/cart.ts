@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { currentUser } from "@clerk/nextjs";
 import {
 	CreateOrderDocument,
 	CreateOrderItemDocument,
@@ -9,11 +10,14 @@ import { executeGraphQl } from "@/api/products";
 
 export async function getOrCreateCart(): Promise<Order> {
 	const existingCart = await getCartFromCookie();
+	const user = await currentUser();
+	const userId = user?.id;
+
 	if (existingCart) {
 		return existingCart as Order;
 	}
 
-	const cart = await createCart();
+	const cart = await createCart(userId);
 	if (!cart.createOrder) {
 		throw new Error("Could not create cart");
 	}
@@ -44,8 +48,9 @@ export async function getCartFromCookie() {
 	return;
 }
 
-export async function createCart() {
-	return executeGraphQl({ query: CreateOrderDocument, variables: {} });
+export async function createCart(userId?: string) {
+	const variablesData = userId ? { userId } : { userId: null };
+	return executeGraphQl({ query: CreateOrderDocument, variables: variablesData });
 }
 
 export async function addToCart(cartId: string, productId: string) {

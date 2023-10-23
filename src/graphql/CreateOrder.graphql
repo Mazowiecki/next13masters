@@ -1,5 +1,5 @@
-mutation CreateOrder($orderItems: [String]) {
-    createOrder( orderItems: $orderItems ) {
+mutation CreateOrder($orderItems: [String], $userId: String) {
+    createOrder( orderItems: $orderItems, userId: $userId ) {
         id
     }
 }

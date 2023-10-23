@@ -7,5 +7,5 @@ export const getProducts = async (
 	filterPriceHighToLow?: boolean,
 	filterRatingHighToLow?: boolean,
 ) => {
-	return await getProductsList(Number(page), filterPriceHighToLow, filterRatingHighToLow);
+	return getProductsList(Number(page), filterPriceHighToLow, filterRatingHighToLow);
 };

@@ -24,8 +24,9 @@ const ActiveLink = ({
 }: ActiveLinkProps<string>) => {
 	const pathname = usePathname();
 	const stringPathname = typeof href === "object" ? href.pathname || "" : href;
-	const isActive = exact ? pathname === stringPathname : pathname.includes(stringPathname);
-	const url = searchParams ? `${href}?${searchParams}` : href;
+	const isActive = exact ? pathname === stringPathname : pathname?.includes(stringPathname);
+	const url = searchParams ? `${href.toString()}?${searchParams}` : href.toString();
+
 	return (
 		<Link
 			href={url as Route}

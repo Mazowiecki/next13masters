@@ -1,0 +1,5 @@
+mutation UpdateOrder($updateOrderId: ID!, $userId: String) {
+    updateOrder(id: $updateOrderId, userId: $userId) {
+        id
+    }
+}
