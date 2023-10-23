@@ -3,7 +3,6 @@ import { Star } from "lucide-react";
 import { type ReviewItemFragmentFragment } from "@/gql/graphql";
 
 export const ReviewItemList = ({ reviews }: { reviews: ReviewItemFragmentFragment[] }) => {
-	console.log("reviews", reviews);
 	return (
 		<>
 			{reviews

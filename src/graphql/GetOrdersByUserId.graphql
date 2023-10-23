@@ -1,16 +1,19 @@
-query GetCartById($cartId: ID!, $userId: String) {
-    order(id: $cartId, userId: $userId) {
+query GetOrdersByUserId($userId: String) {
+    orders(userId: $userId) {
         id
         status
-        total
+        updatedAt
+        createdAt
         userId
+        total
         orderItem {
+            createdAt
             id
             orderId
             quantity
             updatedAt
             product {
-              ...ProductListItemFragment
+                ...ProductListItemFragment
             }
         }
     }

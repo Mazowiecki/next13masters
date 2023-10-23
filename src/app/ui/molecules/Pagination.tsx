@@ -17,7 +17,7 @@ const Pagination: React.FC<PaginationProps> = ({ length, href, searchParams }) =
 			<ul className="-mt-px flex">
 				{Array.from({ length: length }, (_, index) => {
 					return (
-						<li key={index}>
+						<li key={index} data-testid={`pagination-link-${index + 1}`}>
 							<ActiveLink
 								href={`${href}/${index + 1}` as Route}
 								searchParams={searchParams}
